@@ -1,15 +1,42 @@
 using OrdersService as service from '../../srv/service';
 
+// Labels nos campos do schema
+annotate service.Orders with {
+  title       @title: 'Title';
+  customer    @title: 'Customer';
+  status_code @title: 'Status'
+              @Common.ValueListWithFixedValues: true
+              @Common: {
+                ValueList: {
+                  CollectionPath: 'OrderStatus',
+                  Parameters: [
+                    { $Type: 'Common.ValueListParameterOut',
+                      LocalDataProperty: status_code,
+                      ValueListProperty: 'code' },
+                    { $Type: 'Common.ValueListParameterDisplayOnly',
+                      ValueListProperty: 'name' }
+                  ]
+                }
+              };
+  totalAmount @title: 'Total Amount';
+}
+
+annotate service.OrderItems with {
+  description @title: 'Description';
+  quantity    @title: 'Quantity';
+  unitPrice   @title: 'Unit Price';
+}
+
 annotate service.Orders with @(
   UI: {
     SelectionFields: [ status_code, customer ],
 
     LineItem: [
-      { $Type: 'UI.DataField', Value: title,        Label: 'Title' },
-      { $Type: 'UI.DataField', Value: customer,     Label: 'Customer' },
-      { $Type: 'UI.DataField', Value: status_code,  Label: 'Status' },
-      { $Type: 'UI.DataField', Value: totalAmount,  Label: 'Total Amount' },
-      { $Type: 'UI.DataField', Value: createdAt,    Label: 'Created At' }
+      { $Type: 'UI.DataField', Value: title },
+      { $Type: 'UI.DataField', Value: customer },
+      { $Type: 'UI.DataField', Value: status_code },
+      { $Type: 'UI.DataField', Value: totalAmount },
+      { $Type: 'UI.DataField', Value: createdAt, Label: 'Created At' }
     ],
 
     HeaderInfo: {
@@ -44,10 +71,10 @@ annotate service.Orders with @(
     FieldGroup #GeneralInfo: {
       $Type: 'UI.FieldGroupType',
       Data: [
-        { $Type: 'UI.DataField', Value: title,       Label: 'Title' },
-        { $Type: 'UI.DataField', Value: customer,    Label: 'Customer' },
-        { $Type: 'UI.DataField', Value: status_code, Label: 'Status' },
-        { $Type: 'UI.DataField', Value: totalAmount, Label: 'Total Amount' }
+        { $Type: 'UI.DataField', Value: title },
+        { $Type: 'UI.DataField', Value: customer },
+        { $Type: 'UI.DataField', Value: status_code },
+        { $Type: 'UI.DataField', Value: totalAmount }
       ]
     }
   }
@@ -56,9 +83,9 @@ annotate service.Orders with @(
 annotate service.OrderItems with @(
   UI: {
     LineItem: [
-      { $Type: 'UI.DataField', Value: description, Label: 'Description' },
-      { $Type: 'UI.DataField', Value: quantity,    Label: 'Quantity' },
-      { $Type: 'UI.DataField', Value: unitPrice,   Label: 'Unit Price' }
+      { $Type: 'UI.DataField', Value: description },
+      { $Type: 'UI.DataField', Value: quantity },
+      { $Type: 'UI.DataField', Value: unitPrice }
     ]
   }
 );
