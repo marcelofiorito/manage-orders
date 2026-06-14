@@ -1,5 +1,5 @@
-ID,code,name,descr
-,N,New,New order
-,P,In Progress,Order being processed
-,C,Completed,Order completed
-,X,Cancelled,Order cancelled
+code,name,descr
+N,New,New order
+P,In Progress,Order being processed
+C,Completed,Order completed
+X,Cancelled,Order cancelled
